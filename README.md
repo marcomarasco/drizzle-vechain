@@ -2,7 +2,7 @@
 
 # drizzle
 
-`npm install --save drizzle`
+`npm install --save drizzle-vechain`
 
 Drizzle is a collection of front-end libraries that make writing dapp frontends easier and more predictable. The core of Drizzle is based on a Redux store, so you have access to the spectacular development tools around Redux. We take care of synchronizing your contract data, transaction data and more. Things stay fast because you declare what to keep in sync.
 *   Fully reactive contract data, including state, events and transactions.
@@ -17,7 +17,7 @@ Drizzle is a collection of front-end libraries that make writing dapp frontends 
 
 1. Import the provider.
    ```javascript
-   import { Drizzle } from 'drizzle'
+   import { Drizzle } from 'drizzle-vechain'
    ```
 
 1. Create an `options` object and pass in the desired contract artifacts for Drizzle to instantiate. Other options are available, see [the Options section](#options) below.
@@ -152,6 +152,7 @@ Drizzle has a number of configuration options so it only keeps track of exactly 
   },
   syncAlways,
   web3: {
+    vechain: true,
     customProvider,
     fallback: {
       type
@@ -188,6 +189,9 @@ If `true`, will replay all contract calls at every block. This is useful if your
 
 ### `web3` (object)
 Options regarding `web3` instantiation.
+
+### `vechain` (string)
+Options regarding `vechain` host definition. Set as `true` for mainnet.
 
 #### `customProvider` (object)
 A valid web3 `provider` object. For example, you may wish to programatically create a Ganache provider for testing:

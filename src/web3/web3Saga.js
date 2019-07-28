@@ -1,6 +1,9 @@
 import { call, put } from 'redux-saga/effects'
 import * as Action from './constants'
 
+import { thorify } from 'thorify'
+import { extend } from 'thorify/dist/extend'
+
 var Web3 = require('web3')
 
 /*
@@ -10,6 +13,25 @@ var Web3 = require('web3')
 export function * initializeWeb3 ({ options }) {
   try {
     var web3 = {}
+
+    if (options && options.web3 && options.web3.vechain) {
+      console.warn('Try to connect to Thor network')
+
+      // Checking if Thor has been injected by the browser
+      if (typeof thor !== 'undefined') {
+        // Use thor provider
+        // eslint-disable-next-line no-undef
+        web3 = new Web3(thor)
+        // Extend web3 to connect to VeChain Blockchain
+        extend(web3)
+      } else {
+        // Fall back to default thorified construction to main net
+        web3 = thorify(new Web3(), options.web3.vechain !== true ? options.web3.vechain : 'http://sync-mainet.vechain.org')
+      }
+
+      yield put({ type: Action.WEB3_INITIALIZED })
+      return web3
+    }
 
     if (options && options.web3 && options.web3.customProvider) {
       web3 = new Web3(options.web3.customProvider)

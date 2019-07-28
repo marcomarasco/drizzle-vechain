@@ -3,6 +3,9 @@ const baseConfig = require('./base.config.js');
 
 module.exports = merge(baseConfig, {
   mode: 'development',
+  node: {
+    fs: 'empty'
+  },
   externals: {
     'eth-block-tracker': 'eth-block-tracker-es5',
     'redux': 'redux',
