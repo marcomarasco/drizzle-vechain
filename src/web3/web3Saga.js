@@ -14,7 +14,7 @@ export function * initializeWeb3 ({ options }) {
   try {
     var web3 = {}
 
-    if (options && options.web3 && options.web3.vechain) {
+    if (options && options.vechain) {
       console.warn('Try to connect to Thor network')
 
       // Checking if Thor has been injected by the browser
@@ -26,7 +26,7 @@ export function * initializeWeb3 ({ options }) {
         extend(web3)
       } else {
         // Fall back to default thorified construction to main net
-        web3 = thorify(new Web3(), options.web3.vechain !== true ? options.web3.vechain : 'http://sync-mainet.vechain.org')
+        web3 = thorify(new Web3(), options.vechain !== true ? options.vechain : 'http://sync-mainet.vechain.org')
       }
 
       yield put({ type: Action.WEB3_INITIALIZED })
@@ -96,17 +96,33 @@ export function * initializeWeb3 ({ options }) {
  * Network ID
  */
 
-export function * getNetworkId ({ web3 }) {
-  try {
-    const networkId = yield call(web3.eth.net.getId)
+export function * getNetworkId ({ web3, options }) {
+  // Mask VeChain as Ethereum network
+  if (options.vechain) {
 
-    yield put({ type: Action.NETWORK_ID_FETCHED, networkId })
+    if (options.vechain.indexOf('mainet')) {
+      yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 1 })
+    } else {
+      if (options.vechain.indexOf('testnet')) {
+        yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 3 })
+      } else {
+        if (options.vechain.indexOf('localhost')) {
+          yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 5777 })
+        }
+      }
+    }
+  } else {
+    try {
+      const networkId = yield call(web3.eth.net.getId)
 
-    return networkId
-  } catch (error) {
-    yield put({ type: Action.NETWORK_ID_FAILED, error })
+      yield put({ type: Action.NETWORK_ID_FETCHED, networkId })
 
-    console.error('Error fetching network ID:')
-    console.error(error)
+      return networkId
+    } catch (error) {
+      yield put({ type: Action.NETWORK_ID_FAILED, error })
+
+      console.error('Error fetching network ID:')
+      console.error(error)
+    }
   }
 }

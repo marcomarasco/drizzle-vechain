@@ -1,8 +1,9 @@
-<div style="text-align: center"><img src="https://github.com/trufflesuite/drizzle/blob/master/readme/drizzle-logomark.png?raw=true" alt="Drizzle Logo" /></div>
+<div style="text-align: center"><img src="https://github.com/marcomarasco/drizzle-vechain/blob/master/readme/drizzle-logomark.png?raw=true" alt="Drizzle Logo" /></div>
 
 # drizzle
+## _Now it connects also to VeChain!_
 
-`npm install --save drizzle-vechain`
+`npm install --save drizzle@npm:drizzle-vechain`
 
 Drizzle is a collection of front-end libraries that make writing dapp frontends easier and more predictable. The core of Drizzle is based on a Redux store, so you have access to the spectacular development tools around Redux. We take care of synchronizing your contract data, transaction data and more. Things stay fast because you declare what to keep in sync.
 *   Fully reactive contract data, including state, events and transactions.
@@ -17,7 +18,7 @@ Drizzle is a collection of front-end libraries that make writing dapp frontends 
 
 1. Import the provider.
    ```javascript
-   import { Drizzle } from 'drizzle-vechain'
+   import { Drizzle } from 'drizzle'
    ```
 
 1. Create an `options` object and pass in the desired contract artifacts for Drizzle to instantiate. Other options are available, see [the Options section](#options) below.

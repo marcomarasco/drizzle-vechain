@@ -21,13 +21,13 @@ export function * initializeDrizzle (action) {
     // further web3 interaction, and note web3 will be undefined
     //
     if (web3) {
-      const networkId = yield call(getNetworkId, { web3 })
+      const networkId = yield call(getNetworkId, { web3, options: web3Options })
 
       // Check whether network is allowed
       const networkWhitelist = options.networkWhitelist
       if (networkWhitelist.length &&
           networkId !== NETWORK_IDS.ganache &&
-          !networkWhitelist.includes(networkId)) {
+          !networkWhitelist.includes(networkId) && !web3Options.vechain) { // bypass network mismatch on VeChain Thor
         yield put({ type: NETWORK_MISMATCH, networkId })
       } else {
         // Get initial accounts list and balances.
