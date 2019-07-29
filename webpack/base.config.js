@@ -12,6 +12,9 @@ module.exports = {
     globalObject: "typeof self !== 'undefined' ? self : this",
     path: path.resolve(__dirname, '../dist')
   },
+  node: {
+    fs: 'empty'
+  },
   module: {
     rules: [{
       test: /\.(js)$/,
