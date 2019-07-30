@@ -17,7 +17,7 @@ function * initializeDrizzle (action) {
     var web3 = yield call(initializeWeb3, { options: web3Options })
     drizzle.web3 = web3
 
-    yield call(getNetworkId, { web3 })
+    yield call(getNetworkId, { web3, options: web3Options })
 
     // Get initial accounts list and balances.
     yield call(getAccounts, { web3 })
