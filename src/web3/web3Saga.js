@@ -89,18 +89,14 @@ export function * initializeWeb3 ({ options }) {
 
 export function * getNetworkId ({ web3, options }) {
   // Mask VeChain as Ethereum network
-  if (options.vechain) {
-
-    if (options.vechain.indexOf('mainet')) {
+  if (typeof options.vechain !== 'undefined' && options.vechain) {
+    if (options.vechain.indexOf('mainet') > -1 || options.vechain === true) {
       yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 1 })
-    } else {
-      if (options.vechain.indexOf('testnet')) {
-        yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 3 })
-      } else {
-        if (options.vechain.indexOf('localhost')) {
-          yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 5777 })
-        }
-      }
+    } else if (options.vechain.indexOf('testnet') > -1) {
+      // TODO: add testnet handler properly
+      yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 3 })
+    } else if (options.vechain.indexOf('localhost') > -1) {
+      yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 5777 })
     }
   } else {
     try {
