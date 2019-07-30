@@ -14,8 +14,7 @@ const defaultOptions = {
   polls: {
     blocks: 3000
   },
-  syncAlways: false,
-  networkWhitelist: []
+  syncAlways: false
 }
 
 export default defaultOptions
