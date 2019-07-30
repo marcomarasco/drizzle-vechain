@@ -116,3 +116,4 @@ export function * getNetworkId ({ web3, options }) {
       console.error(error)
     }
   }
+}
