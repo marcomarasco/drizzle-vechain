@@ -15,7 +15,7 @@ export function * initializeWeb3 ({ options }) {
     var web3 = {}
 
     if (options && options.vechain) {
-      console.warn('Try to connect to Thor network with this options', options)
+      console.warn('Try to connect to Thor network with options', options)
 
       // Checking if Thor has been injected by the browser
       if (typeof thor !== 'undefined' && typeof options.thorify === 'undefined') {
@@ -26,8 +26,10 @@ export function * initializeWeb3 ({ options }) {
         extend(web3)
       } else {
         // Fall back to default thorified construction to main net
-        web3 = thorify(new Web3(), options.vechain !== true ? options.vechain : 'https://sync-mainnet.vechain.org')
+        web3 = thorify(new Web3(), options.vechain)
       }
+
+      console.warn('Thorified web3 instance', web3)
 
       yield put({ type: Action.WEB3_INITIALIZED })
       return web3
@@ -90,14 +92,18 @@ export function * initializeWeb3 ({ options }) {
 export function * getNetworkId ({ web3, options }) {
   // Mask VeChain as Ethereum network
   if (typeof options.vechain !== 'undefined' && options.vechain) {
-    if (options.vechain === true || (typeof options.vechain.indexOf === 'function' && options.vechain.indexOf('mainnet') > -1)) {
+    if (options.vechain === true || options.vechain.indexOf('mainnet') > -1) {
       yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 1 })
+      console.warn('Connected to Mainnet')
     } else if (options.vechain.indexOf('testnet') > -1) {
       // TODO: add testnet handler properly
       yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 3 })
+      console.warn('Connected to Testnet')
     } else if (options.vechain.indexOf('localhost') > -1) {
       yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 5777 })
+      console.warn('Connected to Devnet')
     }
+
   } else {
     try {
       const networkId = yield call(web3.eth.net.getId)

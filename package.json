@@ -1,6 +1,6 @@
 {
   "name": "drizzle-vechain",
-  "version": "1.4.30",
+  "version": "1.4.31",
   "description": "A reactive data-store for web3 and smart contracts.",
   "main": "./dist/drizzle.js",
   "react-native": "./src/index.js",
