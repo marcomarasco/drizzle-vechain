@@ -26,10 +26,8 @@ export function * initializeWeb3 ({ options }) {
         extend(web3)
       } else {
         // Fall back to default thorified construction to main net
-        web3 = thorify(new Web3(), options.vechain)
+        web3 = thorify(new Web3(), options.vechain !== true ? options.vechain : 'https://sync-mainnet.vechain.org')
       }
-
-      console.warn('Thorified web3 instance', web3)
 
       yield put({ type: Action.WEB3_INITIALIZED })
       return web3
@@ -93,14 +91,11 @@ export function * getNetworkId ({ web3, options }) {
   // Mask VeChain as Ethereum network
   if (typeof options.vechain !== 'undefined' && options.vechain) {
     if (options.vechain === true || options.vechain.indexOf('mainnet') > -1) {
-      console.warn('Connected to Mainnet')
       yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 1 })
     } else if (options.vechain.indexOf('testnet') > -1) {
       // TODO: add testnet handler properly
-      console.warn('Connected to Testnet')
       yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 3 })
     } else if (options.vechain.indexOf('localhost') > -1) {
-      console.warn('Connected to Devnet')
       yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 5777 })
     }
   } else {
