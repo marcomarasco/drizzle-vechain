@@ -18,7 +18,7 @@ export function * initializeWeb3 ({ options }) {
       console.warn('Try to connect to Thor network')
 
       // Checking if Thor has been injected by the browser
-      if (typeof thor !== 'undefined') {
+      if (typeof thor !== 'undefined' && typeof options.thorify === 'undefined') {
         // Use thor provider
         // eslint-disable-next-line no-undef
         web3 = new Web3(thor)
@@ -90,7 +90,7 @@ export function * initializeWeb3 ({ options }) {
 export function * getNetworkId ({ web3, options }) {
   // Mask VeChain as Ethereum network
   if (typeof options.vechain !== 'undefined' && options.vechain) {
-    if (options.vechain.indexOf('mainet') > -1 || options.vechain === true) {
+    if (options.vechain === true || (typeof options.vechain === 'string' && options.vechain.indexOf('mainnet') > -1)) {
       yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 1 })
     } else if (options.vechain.indexOf('testnet') > -1) {
       // TODO: add testnet handler properly
