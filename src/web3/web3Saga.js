@@ -93,17 +93,16 @@ export function * getNetworkId ({ web3, options }) {
   // Mask VeChain as Ethereum network
   if (typeof options.vechain !== 'undefined' && options.vechain) {
     if (options.vechain === true || options.vechain.indexOf('mainnet') > -1) {
-      yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 1 })
       console.warn('Connected to Mainnet')
+      yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 1 })
     } else if (options.vechain.indexOf('testnet') > -1) {
       // TODO: add testnet handler properly
-      yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 3 })
       console.warn('Connected to Testnet')
+      yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 3 })
     } else if (options.vechain.indexOf('localhost') > -1) {
-      yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 5777 })
       console.warn('Connected to Devnet')
+      yield put({ type: Action.NETWORK_ID_FETCHED, networkId: 5777 })
     }
-
   } else {
     try {
       const networkId = yield call(web3.eth.net.getId)
